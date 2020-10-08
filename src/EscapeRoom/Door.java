@@ -4,7 +4,7 @@ public class Door extends Item {
 	private boolean isClosed = true;
 	// a shorthand constructor for "default" entrance door
 	public Door() {
-		super("Drzwi wejściowe", "Solidne, dębowe drzwi z żelaznymi okuciami.");
+		super("Wyjście", "Solidne, dębowe drzwi z żelaznymi okuciami.");
 	}
 	
 	// constructor for extra doors
@@ -17,7 +17,8 @@ public class Door extends Item {
 		for (Item playersItem : player.getItemsList()) {    // iterating through player's belongings to find if he has a key
 			if (playersItem instanceof Key) {    // we've found a key
 				player.removeItem(playersItem);
-				System.out.println(player.getName() + " otworzył drzwi \"" + this.getName() + "\"");
+				System.out.println(
+						player.getName() + " użył \"" + playersItem.getName() + "\" by otworzyć drzwi \"" + this.getName() + "\"");
 				return -1;	// the doors are open so we're ending the game
 				}
 		}

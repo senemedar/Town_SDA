@@ -44,7 +44,7 @@ public class Room {
 	
 	// basic room setup
 	private void fillRoom() {
-		addItem(new Key("Klucz wejściowy"));
+		addItem(new Key("Klucz do wyjścia"));
 		addItem(new Door());
 	}
 	

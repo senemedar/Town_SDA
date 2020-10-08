@@ -28,25 +28,15 @@ public class GameEngine {
 			System.out.println("0. Zakończ rozgrywkę.");
 			int choice = sc.nextInt();
 			switch (choice) {
-				case 1:
+				case 1 -> {
 					System.out.println("Który przedmiot chcesz użyć?");
 					int choice2 = sc.nextInt();
 					if (useItem(currentPlayer, pokoj, pokoj.getItemsList().get(choice2 - 1)))
-						cont = false;	// the doors are now open; end the game
-						
-					break;
-					
-				case 2:
-					System.out.println(pokoj);
-					break;
-					
-				case 3:
-					System.out.println(currentPlayer.getItemsList());
-					break;
-					
-				case 0:
-					cont = false;
-					break;
+						cont = false;    // the doors are now open; end the game
+				}
+				case 2 -> System.out.println(pokoj);
+				case 3 -> System.out.println(currentPlayer.getItemsList());
+				case 0 -> cont = false;
 			}
 			
 		} while(cont);
