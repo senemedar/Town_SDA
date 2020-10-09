@@ -46,6 +46,7 @@ public class Room {
 	private void fillRoom() {
 		addItem(new Key("Klucz do wyjścia"));
 		addItem(new Door());
+		addItem(new Window());
 	}
 	
 	public void listItems() {
