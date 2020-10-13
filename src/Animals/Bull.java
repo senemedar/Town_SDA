@@ -1,6 +1,6 @@
 package Animals;
 
-public class Bull extends Animal {
+public class Bull extends Animal implements FarmAnimal {
 	
 	public Bull(String name, int age) {
 		super(name, age);

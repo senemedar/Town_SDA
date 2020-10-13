@@ -1,6 +1,6 @@
 package Animals;
 
-public class Cow extends Animal {
+public class Cow extends Animal implements FarmAnimal {
 	
 	private boolean hasMilk;
 	

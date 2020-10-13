@@ -10,10 +10,18 @@ package Cards;
 	Stwórz całą talię, czyli listę wszystkich możliwych rang dla wszystkich możliwych kolorów.
 */
 
+import javax.swing.*;
+
 public class CardsDemo {
 	
 	public static void main(String[] args) {
 	
+		JFrame frame = new JFrame("Card Game!");
+		frame.setContentPane(new MainForm().getMainContainer());
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+
 		Card krolPik = new Card(Ranks.KING, Suits.SPADES);
 		Card asKaro = new Card(Ranks.ACE, Suits.DIAMONDS);
 		Card asTrefl = new Card(Ranks.ACE, Suits.CLUBS);
@@ -26,5 +34,6 @@ public class CardsDemo {
 //		for (Ranks value : Ranks.values()) {
 //			System.out.println("Karta: " + value + "; Siła: " + value.getValue());
 //		}
+	
 	}
 }
