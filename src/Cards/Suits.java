@@ -1,5 +1,5 @@
 package Cards;
 
 public enum Suits {
-	CLUBS, DIAMONDS, HEARTS, SPADES
+	Trefl, Karo, Kier, Pik
 }
