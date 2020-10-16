@@ -26,6 +26,7 @@ public class CardsGame {
 	private static JLabel player1scoreField;
 	private static JLabel player2scoreField;
 	private static JLabel roundIndicatorField;
+	private static JButton nextRoundButton;
 	
 //	private static Card krolPik = new Card(Ranks.Król, Suits.Pik);
 //	private static Card asKaro = new Card(Ranks.As, Suits.Karo);
@@ -37,7 +38,7 @@ public class CardsGame {
 	private static double player2score = 0;
 	
 	// getting the handles for GUI components we want to change during the game.
-	public static void setGUIvariables(JTextPane[] textPaneArray, JLabel[] scoreArray, StyledDocument doc1, StyledDocument doc2) {
+	public static void setGUIvariables(JTextPane[] textPaneArray, JLabel[] scoreArray, StyledDocument doc1, StyledDocument doc2, JButton nextRound) {
 		gameText = textPaneArray[0];
 		topCardText = textPaneArray[1];
 		bottomCardText = textPaneArray[2];
@@ -46,6 +47,7 @@ public class CardsGame {
 		roundIndicatorField = scoreArray[2];
 		topCardDocument = doc1;
 		bottomCardDocument = doc2;
+		nextRoundButton = nextRound;
 	
 //		String[] initString = {
 //				"As\n",	// card value
@@ -105,7 +107,7 @@ public class CardsGame {
 		
 		updateContent(topCardDocument, card1.getRank(), card1.getSuit());
 		updateContent(bottomCardDocument, card2.getRank(), card2.getSuit());
-		displayResult(card1, card2);
+		compareCards(card1, card2);
 		player1scoreField.setText(String.valueOf(player1score));
 		player2scoreField.setText(String.valueOf(player2score));
 
@@ -113,33 +115,36 @@ public class CardsGame {
 		roundIndicatorField.setText("Runda " + round);
 		if (round == player1deck.size()) {
 			System.out.println("Karty się skończyły!\n Koniec gry!");
-			System.exit(0);
+			displayResult(gameText.getText() + "\nKarty się skończyły!\nKoniec gry!");
+			nextRoundButton.setEnabled(false);
+//			System.exit(0);
 		}
 	}
 
-	private static String compareCards(Card card1, Card card2){
-//		StringBuilder sb = new StringBuilder();
-//
+	private static void compareCards(Card card1, Card card2) {
+		StringBuilder sb = new StringBuilder();
+
 //		sb.append(compareCards(card1, card2)).append("\n");
-//
+
 		int result = card1.compareTo(card2);
-		String resultString = "";
+//		String resultString = "";
 		switch (result) {
 			case 1 -> {
-				resultString = "Karta " + card1 + " jest większa.\nGracz 1 otrzymuje punkt.";
+				sb.append("Karta ").append(card1).append(" jest większa.\nGracz 1 otrzymuje punkt.");
 				player1score++;
 			}
 			case -1 -> {
-				resultString = "Karta " + card2 + " jest większa.\nGracz 2 otrzymuje punkt.";
+				sb.append("Karta ").append(card2).append(" jest większa.\nGracz 2 otrzymuje punkt.");
 				player2score++;
 			}
 			case 0 -> {
-				resultString = "Obie karty są równe!\nObaj gracze otrzymują po pół punktu!";
+				sb.append("Obie karty są równe!\nObaj gracze otrzymują po pół punktu!");
 				player1score += 0.5;
 				player2score += 0.5;
 			}
 		}
-		return resultString;
+		
+		displayResult(sb.toString());
 	}
 	
 	public static void main(String[] args) {
@@ -191,15 +196,14 @@ try {
 	
 	}
 	
-	public static void displayResult(Card card1, Card card2) {
-		StringBuilder sb = new StringBuilder();
+	public static void displayResult(String text) {
+//		StringBuilder sb = new StringBuilder();
 		
-		sb.append(compareCards(card1, card2)).append("\n");
+//		sb.append(compareCards(card1, card2)).append("\n");
 //		sb.append(compareCards(asTrefl, asKaro)).append("\n");
 		
 //		sb.append(card1);
 		
-		gameText.setText(sb.toString());
-		
+		gameText.setText(text);
 	}
 }

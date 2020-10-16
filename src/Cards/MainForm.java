@@ -39,7 +39,8 @@ public class MainForm {
 				new JTextPane[] { gameAreaText, topCardText, bottomCardText },
 				new JLabel[] { scorePlayer1, scorePlayer2, roundIndicator },
 				docTopCard,
-				docBottomCard);
+				docBottomCard,
+				nextRound);
 		
 		nextRound.addActionListener(new ActionListener() {
 		@Override
