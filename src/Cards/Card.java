@@ -9,6 +9,14 @@ public class Card {
 		this.suit = suit;
 	}
 	
+	public String getRank() {
+		return rank.name();
+	}
+	
+	public String getSuit() {
+		return suit.name().toLowerCase();
+	}
+	
 	public int compareTo(Card cardToCompare) {
 		int ret = 0;
 		// 1 - pierwsza większa

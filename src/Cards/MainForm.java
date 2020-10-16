@@ -17,6 +17,7 @@ public class MainForm {
 	private JTextPane middleText;
 	private JLabel scorePlayer1;
 	private JLabel scorePlayer2;
+	private JLabel roundIndicator;
 	
 	public MainForm() {
 		// setting up the game environment
@@ -34,7 +35,11 @@ public class MainForm {
 		setIcons(docTopCard);
 		setIcons(docBottomCard);
 
-		CardsGame.setGUIvariables(new JTextPane[]{gameAreaText, topCardText, bottomCardText}, docTopCard, docBottomCard);
+		CardsGame.setGUIvariables(
+				new JTextPane[] { gameAreaText, topCardText, bottomCardText },
+				new JLabel[] { scorePlayer1, scorePlayer2, roundIndicator },
+				docTopCard,
+				docBottomCard);
 		
 		nextRound.addActionListener(new ActionListener() {
 		@Override

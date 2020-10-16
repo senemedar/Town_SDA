@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CardsGame {
@@ -22,17 +23,27 @@ public class CardsGame {
 	private static JTextPane bottomCardText;
 	private static StyledDocument topCardDocument;
 	private static StyledDocument bottomCardDocument;
-	private static Card krolPik = new Card(Ranks.Król, Suits.Pik);
-	private static Card asKaro = new Card(Ranks.As, Suits.Karo);
-	private static Card asTrefl = new Card(Ranks.As, Suits.Trefl);
+	private static JLabel player1scoreField;
+	private static JLabel player2scoreField;
+	private static JLabel roundIndicatorField;
+	
+//	private static Card krolPik = new Card(Ranks.Król, Suits.Pik);
+//	private static Card asKaro = new Card(Ranks.As, Suits.Karo);
+//	private static Card asTrefl = new Card(Ranks.As, Suits.Trefl);
 	private static List<Card> player1deck = new ArrayList<>();
 	private static List<Card> player2deck = new ArrayList<>();
+	private static int round = 0;
+	private static double player1score = 0;
+	private static double player2score = 0;
 	
 	// getting the handles for GUI components we want to change during the game.
-	public static void setGUIvariables(JTextPane[] textPaneArray, StyledDocument doc1, StyledDocument doc2) {
+	public static void setGUIvariables(JTextPane[] textPaneArray, JLabel[] scoreArray, StyledDocument doc1, StyledDocument doc2) {
 		gameText = textPaneArray[0];
 		topCardText = textPaneArray[1];
 		bottomCardText = textPaneArray[2];
+		player1scoreField = scoreArray[0];
+		player2scoreField = scoreArray[1];
+		roundIndicatorField = scoreArray[2];
 		topCardDocument = doc1;
 		bottomCardDocument = doc2;
 	
@@ -43,8 +54,8 @@ public class CardsGame {
 //		String[] initStyles = { "regular", "pik" };
 //		updateContent(topCardDocument, initString, initStyles);
 
-		updateContent(topCardDocument, "Król", "pik");
-		updateContent(bottomCardDocument, "As", "karo");
+//		updateContent(topCardDocument, "Król", "pik");
+//		updateContent(bottomCardDocument, "As", "karo");
 	
 	}
 	
@@ -55,10 +66,13 @@ public class CardsGame {
 				fullDeckList.add(new Card(Ranks.values()[j], Suits.values()[i]));
 			}
 		}
-		for (Card card : fullDeckList) {
-			System.out.println(card);
-		}
-		
+//		for (Card card : fullDeckList) {
+//			System.out.println(card);
+//		}
+		Collections.shuffle(fullDeckList);
+		int size = fullDeckList.size();
+		player1deck = fullDeckList.subList(0, (size + 1) / 2);
+		player2deck = fullDeckList.subList((size + 1) / 2, size);
 	}
 	
 	public static void updateContent(StyledDocument document, String cardValue, String cardSuit) {
@@ -84,18 +98,46 @@ public class CardsGame {
 	public static void nextRound() {
 		bottomCardText.setText(null);
 		topCardText.setText(null);
-		updateContent(topCardDocument, "As", "trefl");
-		updateContent(bottomCardDocument, "As", "karo");
-		displayResult(asTrefl, asKaro);
+
+		Card card1 = player1deck.get(round);
+		Card card2 = player2deck.get(round);
+		
+		
+		updateContent(topCardDocument, card1.getRank(), card1.getSuit());
+		updateContent(bottomCardDocument, card2.getRank(), card2.getSuit());
+		displayResult(card1, card2);
+		player1scoreField.setText(String.valueOf(player1score));
+		player2scoreField.setText(String.valueOf(player2score));
+
+		round++;
+		roundIndicatorField.setText("Runda " + round);
+		if (round == player1deck.size()) {
+			System.out.println("Karty się skończyły!\n Koniec gry!");
+			System.exit(0);
+		}
 	}
 
 	private static String compareCards(Card card1, Card card2){
+//		StringBuilder sb = new StringBuilder();
+//
+//		sb.append(compareCards(card1, card2)).append("\n");
+//
 		int result = card1.compareTo(card2);
 		String resultString = "";
 		switch (result) {
-			case 1 -> resultString = "Karta " + card1 + " jest większa.";
-			case -1 -> resultString = "Karta " + card2 + " jest większa.";
-			case 0 -> resultString = "Obie karty są równe!";
+			case 1 -> {
+				resultString = "Karta " + card1 + " jest większa.\nGracz 1 otrzymuje punkt.";
+				player1score++;
+			}
+			case -1 -> {
+				resultString = "Karta " + card2 + " jest większa.\nGracz 2 otrzymuje punkt.";
+				player2score++;
+			}
+			case 0 -> {
+				resultString = "Obie karty są równe!\nObaj gracze otrzymują po pół punktu!";
+				player1score += 0.5;
+				player2score += 0.5;
+			}
 		}
 		return resultString;
 	}
@@ -122,8 +164,11 @@ public class CardsGame {
 		
 		prepareDecks();
 		
-		displayResult(krolPik, asKaro);
+//		displayResult(krolPik, asKaro);
+		
+		nextRound();
 
+		
 		/*
 		JTextPane textPane = new JTextPane();
 StyledDocument doc = textPane.getStyledDocument();
@@ -152,8 +197,9 @@ try {
 		sb.append(compareCards(card1, card2)).append("\n");
 //		sb.append(compareCards(asTrefl, asKaro)).append("\n");
 		
-		sb.append(card1);
+//		sb.append(card1);
 		
 		gameText.setText(sb.toString());
+		
 	}
 }
