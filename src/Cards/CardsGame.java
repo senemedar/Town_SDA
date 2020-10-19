@@ -28,9 +28,6 @@ public class CardsGame {
 	private static JLabel roundIndicatorField;
 	private static JButton nextRoundButton;
 	
-//	private static Card krolPik = new Card(Ranks.Król, Suits.Pik);
-//	private static Card asKaro = new Card(Ranks.As, Suits.Karo);
-//	private static Card asTrefl = new Card(Ranks.As, Suits.Trefl);
 	private static List<Card> player1deck = new ArrayList<>();
 	private static List<Card> player2deck = new ArrayList<>();
 	private static int round = 0;
@@ -48,36 +45,26 @@ public class CardsGame {
 		topCardDocument = doc1;
 		bottomCardDocument = doc2;
 		nextRoundButton = nextRound;
-	
-//		String[] initString = {
-//				"As\n",	// card value
-//				" "	// card suit
-//		};
-//		String[] initStyles = { "regular", "pik" };
-//		updateContent(topCardDocument, initString, initStyles);
-
-//		updateContent(topCardDocument, "Król", "pik");
-//		updateContent(bottomCardDocument, "As", "karo");
-	
 	}
 	
 	public static void prepareDecks() {
+		// generating full deck of cards and splitting it in half
 		List<Card> fullDeckList = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 13; j++) {
 				fullDeckList.add(new Card(Ranks.values()[j], Suits.values()[i]));
 			}
 		}
-//		for (Card card : fullDeckList) {
-//			System.out.println(card);
-//		}
+		
 		Collections.shuffle(fullDeckList);
+
 		int size = fullDeckList.size();
 		player1deck = fullDeckList.subList(0, (size + 1) / 2);
 		player2deck = fullDeckList.subList((size + 1) / 2, size);
 	}
 	
-	public static void updateContent(StyledDocument document, String cardValue, String cardSuit) {
+		public static void updateContent(StyledDocument document, String cardValue, String cardSuit) {
+		// updating the content of card fields (either top or bottom)
 		String[] initString = {
 				cardValue + "\n",	// card value
 				" "	// card suit
@@ -88,7 +75,6 @@ public class CardsGame {
 			try {
 				document.insertString(
 						document.getLength(),
-//						i,
 						initString[i],
 						document.getStyle(initStyles[i]));
 			} catch (BadLocationException e) {
@@ -103,7 +89,6 @@ public class CardsGame {
 
 		Card card1 = player1deck.get(round);
 		Card card2 = player2deck.get(round);
-		
 		
 		updateContent(topCardDocument, card1.getRank(), card1.getSuit());
 		updateContent(bottomCardDocument, card2.getRank(), card2.getSuit());
@@ -124,10 +109,7 @@ public class CardsGame {
 	private static void compareCards(Card card1, Card card2) {
 		StringBuilder sb = new StringBuilder();
 
-//		sb.append(compareCards(card1, card2)).append("\n");
-
 		int result = card1.compareTo(card2);
-//		String resultString = "";
 		switch (result) {
 			case 1 -> {
 				sb.append("Karta ").append(card1).append(" jest większa.\nGracz 1 otrzymuje punkt.");
@@ -147,8 +129,12 @@ public class CardsGame {
 		displayResult(sb.toString());
 	}
 	
+	public static void displayResult(String text) {
+		gameText.setText(text);
+	}
+	
 	public static void main(String[] args) {
-		
+	
 //	How does it look?
 		UIManager.put("swing.boldMetal", Boolean.FALSE);	// getting rid of the forced bold font setting
 //		try {
@@ -162,48 +148,9 @@ public class CardsGame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
-		
-//		Card krolPik = new Card(Ranks.KING, Suits.SPADES);
-//		Card asKaro = new Card(Ranks.ACE, Suits.DIAMONDS);
-//		Card asTrefl = new Card(Ranks.ACE, Suits.CLUBS);
-		
+
 		prepareDecks();
 		
-//		displayResult(krolPik, asKaro);
-		
 		nextRound();
-
-		
-		/*
-		JTextPane textPane = new JTextPane();
-StyledDocument doc = textPane.getStyledDocument();
-addStylesToDocument(doc);
-
-//Load the text pane with styled text.
-try {
-    for (int i=0; i < initString.length; i++) {
-        doc.insertString(doc.getLength(), initString[i],
-                         doc.getStyle(initStyles[i]));
-    }
-} catch (BadLocationException ble) {
-    System.err.println("Couldn't insert initial text into text pane.");
-}
-		 */
-		
-//		for (Ranks value : Ranks.values()) {
-//			System.out.println("Karta: " + value + "; Siła: " + value.getValue());
-//		}
-	
-	}
-	
-	public static void displayResult(String text) {
-//		StringBuilder sb = new StringBuilder();
-		
-//		sb.append(compareCards(card1, card2)).append("\n");
-//		sb.append(compareCards(asTrefl, asKaro)).append("\n");
-		
-//		sb.append(card1);
-		
-		gameText.setText(text);
 	}
 }
